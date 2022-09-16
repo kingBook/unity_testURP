@@ -2,9 +2,9 @@
 using UnityEngine;
 
 
-public class Box : MonoBehaviour {
+public class BoxDoTransform : MonoBehaviour {
 
-    /// <summary>  Box 对齐的目标（跟随移动、缩放、旋转） </summary>
+    [Tooltip("Box 对齐的目标（跟随移动、缩放、旋转）")]
     public Transform target;
 
     private MeshRenderer m_meshRenderer;

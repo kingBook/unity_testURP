@@ -21,11 +21,11 @@ public class BoxInstancing : MonoBehaviour {
         UpdateBuffers();
     }
 
-    void Update() {
+    private void Update() {
         Graphics.DrawMeshInstancedIndirect(instanceMesh, subMeshIndex, instanceMaterial, new Bounds(Vector3.zero, new Vector3(100.0f, 100.0f, 100.0f)), m_argsBuffer);
     }
 
-    void UpdateBuffers() {
+    private void UpdateBuffers() {
         // Positions and colors
         m_transformBuffer?.Release();
         m_transformBuffer = new ComputeBuffer(instanceCount, 64);
@@ -55,7 +55,7 @@ public class BoxInstancing : MonoBehaviour {
         m_argsBuffer.SetData(m_args);
     }
 
-    void OnDestroy() {
+    private void OnDestroy() {
         m_argsBuffer?.Release();
         m_argsBuffer = null;
 

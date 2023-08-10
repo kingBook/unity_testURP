@@ -71,6 +71,10 @@ namespace UnityTemplateProjects {
         void OnEnable() {
             m_TargetCameraState.SetFromTransform(transform);
             m_InterpolatingCameraState.SetFromTransform(transform);
+
+            var a = new Vector3(1,0,0);
+            var b = new Vector3(1,0,0);
+            Debug.Log(Vector3.Dot(a,b));
         }
 
         Vector3 GetInputTranslationDirection() {

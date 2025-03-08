@@ -13,6 +13,12 @@
             HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
+            
+            // 阴影
+            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS
+            //#pragma multi_compile _ _MAIN_LIGHT_SHADOWS_SCREEN
+			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS_CASCADE
+            #pragma multi_compile _ _SHADOWS_SOFT
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
@@ -66,12 +72,21 @@
                 half3 ambient = _GlossyEnvironmentColor;
                 //half3 ambient = half3(unity_SHAr.w, unity_SHAg.w, unity_SHAb.w) ;
                 //half3 ambient = SAMPLE_GI(i.lightmapUV, i.vertexSH, worldNormal);
-                //half3 ambient =unity_AmbientEquator; ;
-
-                half4 output = _BaseColor * half4(diffuse + _GlossyEnvironmentColor + specular, 1); //将表面颜色，漫反射强度混合。
+                //half3 ambient =unity_AmbientEquator; 
+                
+                // 阴影
+                float4 shadowCoord = TransformWorldToShadowCoord(input.worldPos);
+                Light mainLightShadow = GetMainLight(shadowCoord);
+                half shadow = mainLightShadow.shadowAttenuation;
+                diffuse*=shadow;
+                
+                half4 output = _BaseColor * half4(diffuse + ambient + specular, 1); //将表面颜色，漫反射强度混合。
+                
                 return output;
             }
             ENDHLSL
         }
+        
+        UsePass "Universal Render Pipeline/Lit/ShadowCaster"
     }
 }

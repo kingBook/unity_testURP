@@ -142,6 +142,7 @@ namespace AnimationInstancing
         {
             Debug.Assert(prefab != null);
             string path;
+            InstanceAnimationInfo info = null;
 #if UNITY_EDITOR || UNITY_STANDALONE_WIN
             path = Application.dataPath + "/AnimationTexture/";
 #elif UNITY_STANDALONE_OSX
@@ -152,7 +153,7 @@ namespace AnimationInstancing
             //Debug.Log("This is the data path:" + path);
             FileStream file = File.Open(path + prefab.name + ".bytes", FileMode.Open);
             Debug.Assert(file.CanRead);
-            InstanceAnimationInfo info = new InstanceAnimationInfo();
+            info = new InstanceAnimationInfo();
             BinaryReader reader = new BinaryReader(file);
             info.listAniInfo = ReadAnimationInfo(reader);
             info.extraBoneInfo = ReadExtraBoneInfo(reader);
